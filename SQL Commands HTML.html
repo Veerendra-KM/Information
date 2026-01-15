@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comprehensive SQL Commands Guide</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        code {
+            background-color: #eef;
+            padding: 4px 6px;
+            display: block;
+            margin: 8px 0;
+            border-left: 4px solid #3498db;
+            white-space: pre-wrap;
+        }
+        section {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Comprehensive SQL Commands Guide</h1>
+<p>This document provides an end-to-end overview of SQL commands using practical business-oriented examples.</p>
+
+<section>
+<h2>1. Data Retrieval Commands</h2>
+
+<h3>SELECT</h3>
+<code>
+SELECT employee_name FROM employees;
+</code>
+
+<h3>SELECT *</h3>
+<code>
+SELECT * FROM products;
+</code>
+
+<h3>SELECT DISTINCT</h3>
+<code>
+SELECT DISTINCT department FROM employees;
+</code>
+
+<h3>SELECT INTO</h3>
+<code>
+SELECT * INTO archived_sales FROM sales_2023;
+</code>
+
+<h3>SELECT TOP / LIMIT</h3>
+<code>
+SELECT TOP 5 * FROM orders;
+-- MySQL alternative:
+SELECT * FROM orders LIMIT 5;
+</code>
+</section>
+
+<section>
+<h2>2. Filtering Data</h2>
+
+<h3>WHERE</h3>
+<code>
+SELECT product_name FROM products WHERE price > 1000;
+</code>
+
+<h3>AND / OR</h3>
+<code>
+SELECT emp_name FROM employees
+WHERE department = 'IT' AND experience > 3;
+</code>
+
+<h3>BETWEEN</h3>
+<code>
+SELECT student_name FROM students
+WHERE marks BETWEEN 60 AND 85;
+</code>
+
+<h3>LIKE</h3>
+<code>
+SELECT customer_name FROM customers
+WHERE customer_name LIKE 'A%';
+</code>
+
+<h3>IN</h3>
+<code>
+SELECT city FROM suppliers
+WHERE city IN ('Delhi', 'Pune', 'Bengaluru');
+</code>
+
+<h3>IS NULL / IS NOT NULL</h3>
+<code>
+SELECT emp_name FROM employees WHERE manager_id IS NULL;
+</code>
+</section>
+
+<section>
+<h2>3. Data Definition Language (DDL)</h2>
+
+<h3>CREATE DATABASE</h3>
+<code>
+CREATE DATABASE enterpriseDB;
+</code>
+
+<h3>CREATE TABLE</h3>
+<code>
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    department VARCHAR(50),
+    salary INT
+);
+</code>
+
+<h3>ALTER TABLE</h3>
+<code>
+ALTER TABLE employees ADD email VARCHAR(100);
+</code>
+
+<h3>DROP TABLE</h3>
+<code>
+DROP TABLE temporary_records;
+</code>
+
+<h3>TRUNCATE TABLE</h3>
+<code>
+TRUNCATE TABLE logs;
+</code>
+</section>
+
+<section>
+<h2>4. Data Manipulation Language (DML)</h2>
+
+<h3>INSERT</h3>
+<code>
+INSERT INTO employees VALUES (101, 'Rahul', 'Finance', 70000);
+</code>
+
+<h3>UPDATE</h3>
+<code>
+UPDATE employees SET salary = 75000 WHERE emp_id = 101;
+</code>
+
+<h3>DELETE</h3>
+<code>
+DELETE FROM employees WHERE emp_id = 120;
+</code>
+</section>
+
+<section>
+<h2>5. Aggregate Functions</h2>
+
+<code>
+SELECT COUNT(*) FROM orders;
+</code>
+
+<code>
+SELECT AVG(salary) FROM employees;
+</code>
+
+<code>
+SELECT MAX(marks), MIN(marks) FROM students;
+</code>
+
+<code>
+SELECT department, SUM(salary)
+FROM employees
+GROUP BY department;
+</code>
+</section>
+
+<section>
+<h2>6. Grouping and Sorting</h2>
+
+<h3>GROUP BY & HAVING</h3>
+<code>
+SELECT department, COUNT(emp_id)
+FROM employees
+GROUP BY department
+HAVING COUNT(emp_id) > 5;
+</code>
+
+<h3>ORDER BY</h3>
+<code>
+SELECT product_name FROM products ORDER BY price DESC;
+</code>
+</section>
+
+<section>
+<h2>7. Joins</h2>
+
+<h3>INNER JOIN</h3>
+<code>
+SELECT o.order_id, c.customer_name
+FROM orders o
+INNER JOIN customers c
+ON o.customer_id = c.customer_id;
+</code>
+
+<h3>LEFT JOIN</h3>
+<code>
+SELECT e.emp_name, p.project_name
+FROM employees e
+LEFT JOIN projects p
+ON e.emp_id = p.emp_id;
+</code>
+
+<h3>FULL JOIN</h3>
+<code>
+SELECT *
+FROM students
+FULL OUTER JOIN results
+ON students.roll_no = results.roll_no;
+</code>
+</section>
+
+<section>
+<h2>8. Advanced SQL Commands</h2>
+
+<h3>CASE</h3>
+<code>
+SELECT emp_name,
+CASE
+  WHEN salary > 80000 THEN 'High'
+  ELSE 'Medium'
+END AS salary_level
+FROM employees;
+</code>
+
+<h3>Subquery</h3>
+<code>
+SELECT emp_name FROM employees
+WHERE salary > (SELECT AVG(salary) FROM employees);
+</code>
+
+<h3>Common Table Expression (CTE)</h3>
+<code>
+WITH DeptAvg AS (
+  SELECT department, AVG(salary) avg_salary
+  FROM employees
+  GROUP BY department
+)
+SELECT * FROM DeptAvg;
+</code>
+
+<h3>Window Function</h3>
+<code>
+SELECT emp_name, salary,
+RANK() OVER (ORDER BY salary DESC) AS rank_salary
+FROM employees;
+</code>
+
+<h3>EXISTS</h3>
+<code>
+SELECT customer_name
+FROM customers c
+WHERE EXISTS (
+  SELECT 1 FROM orders o WHERE o.customer_id = c.customer_id
+);
+</code>
+</section>
+
+<section>
+<h2>9. Transaction Control Commands</h2>
+
+<code>
+BEGIN TRANSACTION;
+UPDATE accounts SET balance = balance - 500 WHERE acc_id = 1;
+SAVEPOINT deduct_done;
+ROLLBACK TO deduct_done;
+COMMIT;
+</code>
+</section>
+
+<section>
+<h2>10. Access Control Commands</h2>
+
+<h3>GRANT</h3>
+<code>
+GRANT SELECT, INSERT ON employees TO user_hr;
+</code>
+
+<h3>REVOKE</h3>
+<code>
+REVOKE INSERT ON employees FROM user_hr;
+</code>
+</section>
+
+<h2>Conclusion</h2>
+<p>
+This single-file HTML guide consolidates fundamental, intermediate, and advanced SQL commands using
+realistic business datasets. It serves as a quick reference, academic study guide, and interview-prep companion.
+</p>
+
+</body>
+</html>
